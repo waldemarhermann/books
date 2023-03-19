@@ -12,8 +12,8 @@ function Provider({ children }) {
         setBooks(response.data);
     }
 
-    const editBookById = (id, newTitle) => {
-        const response = axios.put(`http://localhost:3001/books/${id}`, {
+    const editBookById = async (id, newTitle) => {
+        const response = await axios.put(`http://localhost:3001/books/${id}`, {
             title: newTitle
         });
 
@@ -39,15 +39,22 @@ function Provider({ children }) {
             title: title
         });
 
-        console.log(response.data);
         const updatedBooks = [
             ...books, response.data
         ];
         setBooks(updatedBooks);
     };
 
+    const valueToShare = {
+        books,
+        fetchBooks,
+        editBookById,
+        deleteBookById,
+        createBook
+    }
+
     return (
-        <BooksContext.Provider value={{}}>
+        <BooksContext.Provider value={valueToShare}>
             {children}
         </BooksContext.Provider>
     )
